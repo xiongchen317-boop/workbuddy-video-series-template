@@ -26,12 +26,21 @@
 - Accent transition: 0.5s blur crossfade at section changes
 - Entrances use confident `expo.out`, playful `back.out(1.4)`, and calm `sine.out`
 - Each scene has one ambient motion only; all motion is deterministic and timeline-driven
+- Frame 0 already shows a complete WorkBuddy interface plus the episode promise; never fade in from an empty color field
+
+## Product Demo Layout
+
+- WorkBuddy screenshots and recordings occupy the full 1920×972 teaching area above the subtitle lane
+- Keep only a compact title, one short callout, and one focus rectangle over the interface
+- Every episode includes a real WorkBuddy screen recording of the core operation; use still screenshots only to pause on a control or result
+- The interface text must remain readable at normal 1920×1080 playback without requiring the viewer to zoom
 
 ## What NOT to Do
 
 - 不使用暗黑科技背景、紫蓝霓虹渐变或纯黑画布
 - 不堆叠同尺寸卡片网格，不把画面做成网页仪表盘
 - 不让装饰遮挡 WorkBuddy 截图或字幕
+- 不使用“左边大段文字、右边缩小界面”的分栏布局
+- 不以纯色空白、延迟淡入或无信息动画作为第 0 帧
 - 不用小于 20 px 的视频正文，也不把长段文字塞进一帧
 - 不使用随机、无限循环或无法精确回放的动画
-

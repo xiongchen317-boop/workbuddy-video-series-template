@@ -3,8 +3,9 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const COSY_ROOT = process.env.COSYVOICE_ROOT || "D:\\AI\\CosyVoice";
-const PYTHON = process.env.COSYVOICE_PYTHON || path.join(COSY_ROOT, ".venv", "Scripts", "python.exe");
+const COSY_ROOT = process.env.COSYVOICE_ROOT || "C:\\Users\\Administrator\\FinanceVideoRuntime\\CosyVoice";
+const PYTHON = process.env.COSYVOICE_PYTHON
+  || "C:\\Users\\Administrator\\FinanceVideoRuntime\\cosyvoice-env\\Scripts\\python.exe";
 
 const result = spawnSync(PYTHON, [
   path.join(ROOT, "scripts", "build-cosyvoice-narration.py"),
@@ -14,6 +15,14 @@ const result = spawnSync(PYTHON, [
 ], { cwd: ROOT, stdio: "inherit", shell: false });
 
 if (result.status !== 0) process.exit(result.status ?? 1);
+
+const continuityRepair = spawnSync(PYTHON, [
+  path.join(ROOT, "scripts", "revoice-existing-narration.py"),
+  "--project", ROOT,
+  "--cosy-root", COSY_ROOT,
+], { cwd: ROOT, stdio: "inherit", shell: false });
+
+if (continuityRepair.status !== 0) process.exit(continuityRepair.status ?? 1);
 
 const timeline = spawnSync(process.execPath, [
   path.join(ROOT, "scripts", "build-audio.mjs"),

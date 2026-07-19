@@ -12,6 +12,8 @@ work/presentations/**/tmp/preview/
 __pycache__/
 assets/source/female_question_reference_999.wav
 audio/*.wav
+audio/continuity-candidates/
+audio/original-before-continuity/
 hyperframes/assets/audio/*.wav
 outputs/*.mp4
 outputs/*.png
@@ -22,3 +24,7 @@ work/*.mp4
 work/obsidian-knowledge-base/
 work/qa-frames-final/
 work/video-qa/
+work/demo-source-frames/
+work/final-video-frames/
+work/final-video-frames-v2/
+work/ffmpeg-full-install/

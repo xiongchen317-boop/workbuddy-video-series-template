@@ -25,6 +25,7 @@
       "claim": "看懂三块区域，写好一条指令，拿到可检查的结果",
       "accent": "orange",
       "slideType": "cover",
+      "sourceImage": "assets/source/workbuddy-live-home.png",
       "bullets": ["认识界面", "发起任务", "安全验收"],
       "narration": "你好，欢迎来到 WorkBuddy 零基础教程。第一集不讲复杂功能，我们只用几分钟，认识它的界面，并安全完成第一个文件整理任务。"
     },
@@ -35,7 +36,7 @@
       "claim": "WorkBuddy 会规划、执行，并交付能继续使用的文件",
       "accent": "cobalt",
       "slideType": "comparison",
-      "sourceImage": "assets/source/workbuddy-create-task.png",
+      "sourceImage": "assets/source/workbuddy-live-home.png",
       "bullets": ["听懂你的目标", "拆成可执行步骤", "操作授权范围内的文件", "交付文档、表格或演示稿"],
       "narration": "普通聊天工具通常给你一段答案。WorkBuddy 更像一位会做事的同事：你说清目标，它会拆解步骤，在你授权的范围里执行，最后交付可以打开、检查和继续编辑的文件。"
     },
@@ -47,19 +48,19 @@
       "accent": "mint",
       "slideType": "steps",
       "bullets": ["打开 workbuddy.cn", "下载 Windows 客户端", "安装并创建桌面快捷方式", "扫码登录"],
-      "sourceImage": "assets/source/workbuddy-install.png",
+      "sourceImage": "assets/source/workbuddy-live-home.png",
       "narration": "开始前先确认三点。电脑需要 Windows 十或更高版本；安装包只从 WorkBuddy 官网下载；安装完成后按官方页面扫码登录。界面会随版本更新，但流程基本就是下载、安装、登录。"
     },
     {
       "id": "scene-04",
       "section": "看懂界面",
       "title": "主界面只记住三处",
-      "claim": "左边管任务，中间说需求，右边看结果",
+      "claim": "左边找任务，中间看过程，底部继续输入",
       "accent": "berry",
       "slideType": "interface",
-      "bullets": ["任务侧栏：切换和管理任务", "对话区：输入需求并继续追问", "结果区：预览文件、变更和交付物"],
-      "sourceImage": "assets/source/workbuddy-create-task.png",
-      "narration": "打开主界面后，先别被按钮吓到。你只要记住三处：左边是任务侧栏，中间是对话区，右边是结果区。以后做任何事情，基本都遵循输入需求、查看过程、验收结果这条路线。"
+      "bullets": ["任务侧栏：切换和管理任务", "工作区：查看过程与结果", "输入区：补充要求并继续追问"],
+      "sourceImage": "assets/source/workbuddy-live-home.png",
+      "narration": "打开主界面后，先别被按钮吓到。现在只记三处：左边是任务侧栏，中间用来查看过程和结果，底部输入区用来提出需求、补充说明。以后做任何事情，都按输入需求、查看过程、验收结果这条路线。"
     },
     {
       "id": "scene-05",
@@ -68,7 +69,7 @@
       "claim": "小范围、可回退、容易验收，最适合第一次练习",
       "accent": "sun",
       "slideType": "demo",
-      "sourceImage": "assets/source/workbuddy-workspace.png",
+      "sourceImage": "assets/source/workbuddy-live-workspace.png",
       "bullets": ["范围：桌面\\练习资料", "动作：按文档、图片、表格分类", "交付：整理结果清单", "边界：不删除、不覆盖"],
       "narration": "第一次不要直接整理整个硬盘。先新建一个叫练习资料的文件夹，放几份可复制的测试文件。任务范围越小，结果越容易检查；即使指令写得不够好，也能轻松恢复。"
     },
@@ -79,7 +80,10 @@
       "claim": "说得具体，WorkBuddy 才能做得稳",
       "accent": "cobalt",
       "slideType": "formula",
-      "sourceImage": "assets/source/workbuddy-conversation.png",
+      "sourceImage": "assets/source/workbuddy-live-enhanced-prompt.png",
+      "demoVideo": "assets/source/workbuddy-live-demo.mp4",
+      "demoStart": 11.5,
+      "demoDuration": 6.5,
       "promptParts": ["范围", "动作", "交付", "边界"],
       "prompt": "读取桌面\\练习资料文件夹；按文档、图片、表格分类到对应子文件夹；不要删除或覆盖原文件；生成《整理结果清单.xlsx》，并列出重复文件。",
       "bullets": ["范围：只读练习资料", "动作：分类整理", "交付：生成清单", "边界：不删不覆盖"],
@@ -88,13 +92,13 @@
     {
       "id": "scene-07",
       "section": "安全执行",
-      "title": "先看计划，再让它动手",
-      "claim": "范围不对就改，出现删除或覆盖就先停",
+      "title": "工作空间和权限，先限制再执行",
+      "claim": "选对文件夹，保持默认权限，风险更小",
       "accent": "orange",
       "slideType": "safety",
-      "sourceImage": "assets/source/workbuddy-plan-mode.png",
-      "bullets": ["确认目标文件夹", "确认没有删除动作", "确认交付文件名", "确认权限只覆盖必要范围"],
-      "narration": "发送后先读一遍执行计划。重点检查目标文件夹是不是练习资料，有没有删除或覆盖动作，最后会不会生成清单。只要范围不对，或者出现你没要求的高风险操作，就先暂停并补充说明。"
+      "sourceImage": "assets/source/workbuddy-live-permission.png",
+      "bullets": ["只选练习文件夹", "保持默认权限", "确认没有删除动作", "范围不对立即停止"],
+      "narration": "发送前，先检查工作空间和权限。工作空间只选择练习资料文件夹，权限先保持默认。再确认指令里没有删除或覆盖动作。只要范围不对，或者出现你没要求的高风险操作，就先停下来修改。"
     },
     {
       "id": "scene-08",
@@ -103,7 +107,7 @@
       "claim": "打开文件、抽查分类、对照清单，才算真正交付",
       "accent": "mint",
       "slideType": "checklist",
-      "sourceImage": "assets/source/workbuddy-results.png",
+      "sourceImage": "assets/source/workbuddy-live-result.png",
       "bullets": ["原文件还在", "分类目录正确", "重复文件已标记", "清单能正常打开"],
       "narration": "最后别只看一句任务完成。打开结果文件夹，抽查几个文件，再打开整理结果清单，确认原文件还在、分类正确、重复项有标记。做到这一步，你已经跑通了 WorkBuddy 的第一项任务。下一集，我们学习怎样把普通需求写成高质量提示词。"
     }

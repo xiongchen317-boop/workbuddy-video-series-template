@@ -100,7 +100,7 @@ test("HyperFrames reserves a dedicated subtitle lane and has no duplicate focus 
   const durations = Object.fromEntries(sampleEpisode.scenes.map((scene) => [scene.id, 5]));
   const html = renderHyperframesHtml(sampleEpisode, buildTimeline(sampleEpisode, durations));
   assert.doesNotMatch(html, /focus-chip/);
-  assert.match(html, /\.slide-image \{[^}]*width: 1728px;[^}]*height: 972px;/);
+  assert.match(html, /\.slide-image \{[^}]*width: 1920px;[^}]*height: 972px;/);
   assert.match(html, /\.caption-lane \{[^}]*bottom: 0;[^}]*height: 108px;/);
 });
 
@@ -131,4 +131,73 @@ test("published timeline metadata stays synchronized with the selected CosyVoice
     "utf8",
   );
   assert.match(cosyWrapper, /build-timeline\.mjs/);
+  assert.match(cosyWrapper, /revoice-existing-narration\.py/);
+});
+
+test("instructional slides prioritize readable live WorkBuddy captures", () => {
+  const episode = JSON.parse(fs.readFileSync(new URL("../content/episode.json", import.meta.url), "utf8"));
+  assert.equal(episode.scenes[0].sourceImage, "assets/source/workbuddy-live-home.png");
+  for (const scene of episode.scenes.slice(1)) {
+    assert.match(scene.sourceImage || "", /^assets\/source\/workbuddy-live-.+\.png$/);
+  }
+  assert.equal(episode.scenes[5].demoVideo, "assets/source/workbuddy-live-demo.mp4");
+
+  const slideBuilder = fs.readFileSync(
+    new URL("../work/presentations/workbuddy-episode-01/tmp/build-slides.mjs", import.meta.url),
+    "utf8",
+  );
+  assert.match(slideBuilder, /function addFullBleedInterface\(/);
+  assert.match(slideBuilder, /left: 20, top: 28, width: 1240, height: 664/);
+  assert.doesNotMatch(slideBuilder, /const short = \["说清目标"/);
+});
+
+test("video begins with useful content and embeds the real WorkBuddy recording", () => {
+  const episode = structuredClone(sampleEpisode);
+  episode.scenes[5].demoVideo = "assets/source/workbuddy-live-demo.mp4";
+  episode.scenes[5].demoStart = 11.5;
+  episode.scenes[5].demoDuration = 6.5;
+  const durations = Object.fromEntries(episode.scenes.map((scene) => [scene.id, scene.id === "scene-06" ? 8 : 5]));
+  const html = renderHyperframesHtml(episode, buildTimeline(episode, durations));
+
+  assert.match(html, /\.slide-image \{[^}]*left: 0;[^}]*width: 1920px;[^}]*height: 972px;/);
+  assert.match(html, /class="screen-recording clip"/);
+  assert.match(html, /muted playsinline/);
+  assert.match(html, /data-duration="6\.5"[^>]*data-media-start="11\.5"/);
+  assert.doesNotMatch(html, /tl\.from\("#scene-01-slide", \{[^}]*opacity: 0/);
+  assert.match(html, /Final scene stays useful[\s\S]*overwrite: "auto"/);
+});
+
+test("CosyVoice selection enforces cross-segment speaker continuity", () => {
+  const generator = fs.readFileSync(
+    new URL("../scripts/build-cosyvoice-narration.py", import.meta.url),
+    "utf8",
+  );
+  assert.match(generator, /ADJACENT_SIMILARITY_THRESHOLD\s*=\s*0\.86/);
+  assert.match(generator, /def select_consistent_sequence\(/);
+  assert.match(generator, /previousSegmentSimilarity/);
+  assert.doesNotMatch(generator, /20260719 \+ index/);
+  assert.doesNotMatch(generator, /20261719 \+ index/);
+});
+
+test("CosyVoice continuity repair keeps timing and converts every existing segment to the fixed reference", () => {
+  const repair = fs.readFileSync(
+    new URL("../scripts/revoice-existing-narration.py", import.meta.url),
+    "utf8",
+  );
+  assert.match(repair, /model\.inference_vc\(/);
+  assert.match(repair, /ADJACENT_SIMILARITY_THRESHOLD\s*=\s*0\.86/);
+  assert.match(repair, /female_question_reference_999\.wav/);
+  assert.match(repair, /previousSegmentSimilarity/);
+  assert.match(repair, /speed=1\.0/);
+});
+
+test("narration ASR gate blocks prompt leakage and low transcript similarity", () => {
+  const audit = fs.readFileSync(
+    new URL("../scripts/audit-narration-asr.py", import.meta.url),
+    "utf8",
+  );
+  assert.match(audit, /AVERAGE_SIMILARITY_THRESHOLD\s*=\s*0\.72/);
+  assert.match(audit, /保持原音色/);
+  assert.match(audit, /不要停顿/);
+  assert.match(audit, /asr-audit\.json/);
 });

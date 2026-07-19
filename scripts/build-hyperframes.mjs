@@ -27,6 +27,7 @@ async function main() {
   await fs.copyFile(path.join(ROOT, "DESIGN.md"), path.join(PROJECT, "DESIGN.md"));
   await copyFolderFiles(path.join(ROOT, "assets", "slides"), path.join(PROJECT, "assets", "slides"), ".png");
   await copyFolderFiles(path.join(ROOT, "audio"), path.join(PROJECT, "assets", "audio"), ".wav");
+  await copyFolderFiles(path.join(ROOT, "assets", "source"), path.join(PROJECT, "assets", "video"), ".mp4");
   console.log(`hyperframes: ${path.join(PROJECT, "index.html")}`);
 }
 

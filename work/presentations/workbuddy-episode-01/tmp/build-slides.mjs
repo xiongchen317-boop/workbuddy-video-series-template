@@ -160,195 +160,128 @@ async function addImage(slide, relativePath, position, options = {}) {
   });
 }
 
+function addFocusBox(slide, box, color) {
+  addShape(slide, "roundRect", box, "none", {
+    borderRadius: "rounded-xl",
+    line: { style: "solid", fill: color, width: 4 },
+  });
+}
+
+async function addFullBleedInterface(slide, scene, index, options = {}) {
+  slide.background.fill = C.bg;
+  const accent = accentColor(scene.accent);
+  await addImage(slide, scene.sourceImage, { left: 20, top: 28, width: 1240, height: 664 }, {
+    alt: options.alt || "本机 WorkBuddy 实际界面",
+    fit: "cover",
+    lineColor: accent,
+  });
+  addShape(slide, "roundRect", { left: 38, top: 44, width: 930, height: 58 }, C.white, {
+    borderRadius: "rounded-xl",
+    line: { style: "solid", fill: accent, width: 2 },
+    shadow: "shadow-sm",
+  });
+  addText(slide, options.title || scene.title, { left: 58, top: 47, width: 890, height: 52 }, {
+    fontSize: options.titleSize || 32,
+    bold: true,
+    color: C.ink,
+  });
+  (options.focusBoxes || []).forEach((box) => addFocusBox(slide, box, accent));
+  if (options.callout) {
+    addPill(slide, options.callout, options.calloutLeft || 760, 632, options.calloutWidth || 450, accent);
+  }
+  addPill(slide, `EP 01 · ${index + 1}/8`, 1070, 46, 160, C.ink);
+  return slide;
+}
+
 async function buildCover(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addText(slide, "零基础教程", { left: 64, top: 108, width: 300, height: 54 }, {
-    fontSize: 26,
+  await addFullBleedInterface(slide, scene, index, { title: "WorkBuddy 零基础｜跑通第一个任务", titleSize: 36 });
+  addShape(slide, "roundRect", { left: 62, top: 132, width: 610, height: 170 }, C.white, {
+    borderRadius: "rounded-xl",
+    line: { style: "solid", fill: C.orange, width: 3 },
+    shadow: "shadow-md",
+  });
+  addText(slide, "看界面 · 写指令 · 验结果", { left: 92, top: 150, width: 550, height: 72 }, {
+    fontSize: 42,
+    bold: true,
+    color: C.ink,
+  });
+  addText(slide, "全程使用本机 WorkBuddy 实际操作画面", { left: 94, top: 224, width: 540, height: 48 }, {
+    fontSize: 24,
     bold: true,
     color: C.orange,
   });
-  addText(slide, "WORK\nBUDDY", { left: 64, top: 160, width: 560, height: 240 }, {
-    fontFamily: "JetBrains Mono",
-    fontSize: 88,
-    bold: true,
-    color: C.ink,
-    verticalAlignment: "top",
-  });
-  addText(slide, scene.claim, { left: 70, top: 428, width: 720, height: 74 }, {
-    fontSize: 28,
-    bold: true,
-    color: C.cobalt,
-    verticalAlignment: "top",
-  });
-  addShape(slide, "ellipse", { left: 858, top: 128, width: 300, height: 300 }, C.orange);
-  addText(slide, "01", { left: 858, top: 128, width: 300, height: 300 }, {
-    fontFamily: "JetBrains Mono",
-    fontSize: 138,
-    bold: true,
-    color: C.white,
-    alignment: "center",
-  });
-  const colors = [C.orange, C.cobalt, C.mint];
-  scene.bullets.forEach((item, i) => addPill(slide, item, 70 + i * 205, 548, 176, colors[i]));
   return slide;
 }
 
 async function buildComparison(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addHeadline(slide, scene, {
-    title: { left: 64, top: 82, width: 520, height: 100 },
-    rule: { left: 64, top: 190, width: 110, height: 7 },
-    claim: { left: 64, top: 208, width: 500, height: 78 },
-    titleSize: 38,
-    claimSize: 22,
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "从输入框开始：说清楚你要的结果",
+    focusBoxes: [{ left: 430, top: 405, width: 610, height: 138 }],
   });
-  const short = ["说清目标", "自动规划", "执行步骤", "右侧交付结果"];
-  short.forEach((item, i) => addBullet(slide, item, 70, 330 + i * 62, 450, C.cobalt, i + 1));
-  await addImage(slide, scene.sourceImage, { left: 590, top: 132, width: 612, height: 438 }, {
-    alt: "WorkBuddy 任务执行与右侧结果预览界面",
-    fit: "contain",
-    lineColor: C.cobalt,
-  });
-  addShape(slide, "roundRect", { left: 928, top: 150, width: 258, height: 396 }, "none", {
-    borderRadius: "rounded-xl",
-    line: { style: "solid", fill: C.orange, width: 4 },
-  });
-  addPill(slide, "看这里：执行过程 + 结果", 778, 586, 310, C.orange);
-  return slide;
 }
 
 async function buildSteps(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addHeadline(slide, scene, { title: { left: 64, top: 76, width: 560, height: 98 }, rule: { left: 64, top: 182, width: 100, height: 7 }, claim: { left: 64, top: 198, width: 540, height: 72 }, titleSize: 40, claimSize: 22 });
-  scene.bullets.forEach((item, i) => addBullet(slide, item, 68, 300 + i * 72, 500, C.mint, i + 1));
-  await addImage(slide, scene.sourceImage, { left: 620, top: 120, width: 580, height: 462 }, {
-    alt: "WorkBuddy 官方下载页面截图",
-    fit: "cover",
-    lineColor: C.mint,
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "安装登录后，先点左上角「新建任务」",
+    focusBoxes: [{ left: 34, top: 82, width: 188, height: 42 }],
   });
-  addText(slide, "只从官网下载安装", { left: 740, top: 542, width: 348, height: 44 }, {
-    fontSize: 20, bold: true, color: C.white, alignment: "center", fill: C.mint,
-  });
-  return slide;
 }
 
 async function buildInterface(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addText(slide, scene.title, { left: 64, top: 76, width: 700, height: 70 }, { fontSize: 42, bold: true });
-  addText(slide, scene.claim, { left: 66, top: 144, width: 780, height: 42 }, { fontSize: 23, bold: true, color: C.berry });
-  await addImage(slide, scene.sourceImage, { left: 92, top: 212, width: 1096, height: 380 }, {
-    alt: "WorkBuddy 主界面官方截图",
-    fit: "cover",
-    lineColor: C.berry,
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "左边找任务 · 中间看过程 · 底部继续输入",
+    calloutLeft: 670,
+    calloutWidth: 540,
+    focusBoxes: [
+      { left: 34, top: 80, width: 188, height: 520 },
+      { left: 420, top: 160, width: 630, height: 260 },
+      { left: 420, top: 420, width: 630, height: 150 },
+    ],
   });
-  const labels = [
-    { text: "1 任务侧栏", left: 112, color: C.orange },
-    { text: "2 对话区", left: 498, color: C.cobalt },
-    { text: "3 结果区", left: 940, color: C.mint },
-  ];
-  labels.forEach((label) => addPill(slide, label.text, label.left, 604, 180, label.color));
-  return slide;
 }
 
 async function buildDemo(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addHeadline(slide, scene, {
-    title: { left: 64, top: 82, width: 650, height: 92 },
-    rule: { left: 64, top: 182, width: 110, height: 7 },
-    claim: { left: 64, top: 200, width: 620, height: 66 },
-    titleSize: 39,
-    claimSize: 22,
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "点「选择工作空间」，只授权练习文件夹",
+    calloutLeft: 760,
+    calloutWidth: 450,
+    focusBoxes: [{ left: 438, top: 428, width: 205, height: 154 }],
   });
-  const colors = [C.cobalt, C.mint, C.orange, C.berry];
-  scene.bullets.forEach((item, i) => {
-    const top = 312 + i * 66;
-    addShape(slide, "rect", { left: 64, top, width: 10, height: 52 }, colors[i]);
-    addText(slide, item, { left: 94, top: top - 2, width: 520, height: 56 }, { fontSize: 22, bold: true });
-  });
-  await addImage(slide, scene.sourceImage, { left: 724, top: 146, width: 420, height: 430 }, {
-    alt: "WorkBuddy 选择工作空间界面",
-    fit: "contain",
-    lineColor: C.sun,
-  });
-  addShape(slide, "roundRect", { left: 756, top: 480, width: 356, height: 74 }, "none", {
-    borderRadius: "rounded-xl",
-    line: { style: "solid", fill: C.orange, width: 4 },
-  });
-  addPill(slide, "点这里：选择工作空间", 785, 588, 300, C.orange);
-  return slide;
 }
 
 async function buildFormula(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addText(slide, scene.title, { left: 64, top: 76, width: 1120, height: 72 }, { fontSize: 37, bold: true });
-  const colors = [C.orange, C.cobalt, C.mint, C.berry];
-  scene.promptParts.forEach((part, i) => {
-    const top = 174 + i * 82;
-    addShape(slide, "roundRect", { left: 64, top, width: 350, height: 62 }, colors[i], { borderRadius: "rounded-xl" });
-    addText(slide, `0${i + 1}`, { left: 82, top: top + 8, width: 52, height: 44 }, { fontFamily: "JetBrains Mono", fontSize: 16, bold: true, color: C.white });
-    addText(slide, part, { left: 142, top: top + 4, width: 230, height: 50 }, { fontSize: 26, bold: true, color: C.white });
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "实际录屏：输入 → 优化 → 检查",
+    calloutLeft: 820,
+    calloutWidth: 390,
+    focusBoxes: [{ left: 430, top: 365, width: 630, height: 220 }],
   });
-  await addImage(slide, scene.sourceImage, { left: 470, top: 154, width: 730, height: 450 }, {
-    alt: "WorkBuddy 对话输入框与任务界面",
-    fit: "contain",
-    lineColor: C.cobalt,
-  });
-  addShape(slide, "roundRect", { left: 686, top: 500, width: 486, height: 82 }, "none", {
-    borderRadius: "rounded-xl",
-    line: { style: "solid", fill: C.orange, width: 4 },
-  });
-  addPill(slide, "把四块内容写进这里，再发送", 675, 610, 500, C.orange);
-  return slide;
 }
 
 async function buildSafety(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addText(slide, "先看计划，再让它动手", { left: 64, top: 88, width: 700, height: 78 }, { fontSize: 46, bold: true, color: C.ink });
-  addText(slide, scene.claim, { left: 66, top: 170, width: 650, height: 64 }, { fontSize: 23, bold: true, color: C.berry, verticalAlignment: "top" });
-  scene.bullets.forEach((item, i) => addBullet(slide, item, 72, 280 + i * 62, 560, C.orange, i + 1));
-  await addImage(slide, scene.sourceImage, { left: 760, top: 142, width: 390, height: 430 }, {
-    alt: "WorkBuddy Plan 模式选择界面",
-    fit: "contain",
-    lineColor: C.orange,
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "保持默认权限；需要时再临时放开",
+    calloutLeft: 790,
+    calloutWidth: 420,
+    focusBoxes: [{ left: 525, top: 455, width: 205, height: 122 }],
   });
-  addShape(slide, "roundRect", { left: 796, top: 280, width: 146, height: 78 }, "none", {
-    borderRadius: "rounded-xl",
-    line: { style: "solid", fill: C.berry, width: 4 },
-  });
-  addPill(slide, "点这里：Plan（先规划）", 788, 590, 300, C.orange);
-  return slide;
 }
 
 async function buildChecklist(presentation, scene, index) {
   const slide = presentation.slides.add();
-  addBase(slide, scene, index);
-  addHeadline(slide, scene, { title: { left: 64, top: 82, width: 670, height: 86 }, rule: { left: 64, top: 177, width: 110, height: 7 }, claim: { left: 64, top: 198, width: 620, height: 72 }, titleSize: 38, claimSize: 22 });
-  const positions = [[64, 304], [64, 376], [64, 448], [64, 520]];
-  const colors = [C.orange, C.cobalt, C.mint, C.berry];
-  scene.bullets.forEach((item, i) => {
-    const [left, top] = positions[i];
-    addShape(slide, "ellipse", { left, top, width: 48, height: 48 }, colors[i]);
-    addText(slide, "✓", { left, top, width: 48, height: 48 }, { fontSize: 24, bold: true, color: C.white, alignment: "center" });
-    addText(slide, item, { left: left + 66, top: top - 2, width: 390, height: 52 }, { fontSize: 23, bold: true });
+  return addFullBleedInterface(slide, scene, index, {
+    callout: "打开结果，逐项核对状态和交付文件",
+    calloutLeft: 760,
+    calloutWidth: 450,
+    focusBoxes: [{ left: 410, top: 150, width: 665, height: 260 }],
   });
-  await addImage(slide, scene.sourceImage, { left: 620, top: 142, width: 580, height: 440 }, {
-    alt: "WorkBuddy 右侧结果区与产物预览",
-    fit: "contain",
-    lineColor: C.mint,
-  });
-  addShape(slide, "roundRect", { left: 906, top: 160, width: 274, height: 400 }, "none", {
-    borderRadius: "rounded-xl",
-    line: { style: "solid", fill: C.orange, width: 4 },
-  });
-  addPill(slide, "点右侧结果区：打开、抽查、对照", 760, 596, 390, C.orange);
-  return slide;
 }
 
 async function main() {

@@ -12,9 +12,16 @@ function seconds(value) {
 
 function sceneMarkup(scene, index) {
   const transition = index === 0 ? "" : ` data-transition="${index === 4 || index === 7 ? "blur" : "push"}"`;
+  const demoFile = scene.demoVideo ? String(scene.demoVideo).split(/[\\/]/).at(-1) : null;
+  const demoStart = Number.isFinite(Number(scene.demoStart)) ? Number(scene.demoStart) : 0;
+  const requestedDemoDuration = Number.isFinite(Number(scene.demoDuration)) ? Number(scene.demoDuration) : 18;
+  const demoDuration = Math.min(requestedDemoDuration, Math.max(1, scene.duration - 1.2));
+  const demo = demoFile ? `
+        <video id="${scene.id}-demo" class="screen-recording clip" data-start="${seconds(scene.start + 0.6)}" data-duration="${seconds(demoDuration)}" data-track-index="1" data-media-start="${seconds(demoStart)}" src="assets/video/${escapeHtml(demoFile)}" muted playsinline></video>` : "";
   return `
       <div id="${scene.id}" class="scene"${transition}>
         <img id="${scene.id}-slide" class="slide-image" src="assets/slides/slide-${String(index + 1).padStart(2, "0")}.png" alt="${escapeHtml(scene.title)}" />
+${demo}
       </div>`;
 }
 
@@ -54,9 +61,15 @@ function entranceJs(timeline) {
     ["back.out(1.35)", "power3.out", "expo.out", "sine.out", "power4.out"],
   ];
   return timeline.scenes.map((scene, index) => {
-    const at = scene.start + (index === 0 ? 0.2 : 0.23);
+    const at = scene.start + (index === 0 ? 0 : 0.23);
     const e = eases[index % eases.length];
     const ambientDuration = Math.max(1, scene.duration - 1.4);
+    if (index === 0) {
+      return `
+      // ${scene.id}: frame zero is already useful and fully visible.
+      tl.from("#${scene.id}-slide", { scale: 0.995, duration: 0.58, ease: "${e[0]}" }, 0);
+      tl.to("#${scene.id}-slide", { scale: 1.004, duration: ${seconds(ambientDuration)}, ease: "sine.inOut" }, 0.62);`;
+    }
     return `
       // ${scene.id}: build → breathe
       tl.from("#${scene.id}-slide", { scale: 0.975, opacity: 0, duration: 0.72, ease: "${e[0]}" }, ${seconds(at)});
@@ -98,7 +111,8 @@ export function renderHyperframesHtml(episode, timeline) {
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #FFF7E8; }
       .scene { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; background-color: #FFF7E8; }
       ${hiddenSceneCss} { opacity: 0; }
-      .slide-image { position: absolute; left: 96px; top: 0; width: 1728px; height: 972px; object-fit: contain; transform-origin: center top; }
+      .slide-image { position: absolute; left: 0; top: 0; width: 1920px; height: 972px; object-fit: contain; transform-origin: center top; }
+      .screen-recording { position: absolute; left: 0; top: 0; width: 1920px; height: 972px; object-fit: contain; object-position: center center; background: #F6F7F9; z-index: 20; }
       .caption-lane { position: absolute; left: 0; right: 0; bottom: 0; height: 108px; background: #FFF7E8; border-top: 2px solid rgba(23,34,59,.1); z-index: 70; }
       .caption-group { position: absolute; left: 90px; right: 90px; bottom: 10px; height: 88px; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; z-index: 80; }
       .caption-group span { display: inline-block; max-width: 1600px; color: #FFFEFA; font-size: 46px; font-weight: 800; line-height: 1.08; letter-spacing: -0.02em; text-align: center; -webkit-text-stroke: 2px #17223B; paint-order: stroke fill; text-shadow: 0 3px 5px rgba(23,34,59,.45); }
@@ -117,8 +131,8 @@ ${captions}
 ${transitionJs(timeline)}
 ${entranceJs(timeline)}
 ${captionJs(timeline)}
-      // Final scene only: gentle closure.
-      tl.to("#${finalScene.id}", { opacity: 0, duration: 0.7, ease: "power2.in" }, ${seconds(timeline.duration - 0.72)});
+      // Final scene stays useful through the last frame.
+      tl.to("#${finalScene.id}-slide", { scale: 1.003, duration: 0.7, ease: "sine.out", overwrite: "auto" }, ${seconds(timeline.duration - 0.72)});
       window.__timelines["${escapeHtml(episode.id)}"] = tl;
     </script>
   </body>
