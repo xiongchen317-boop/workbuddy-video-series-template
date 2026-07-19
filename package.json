@@ -1,0 +1,16 @@
+{
+  "name": "workbuddy-video-series-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/episode.test.mjs",
+    "build:audio": "node scripts/build-cosyvoice-audio.mjs",
+    "build:hyperframes": "node scripts/build-hyperframes.mjs",
+    "build:timeline": "node scripts/build-timeline.mjs",
+    "build:slides": "node work/presentations/workbuddy-episode-01/tmp/build-slides.mjs",
+    "build:all": "npm run validate:content && npm run build:audio && npm run build:slides && npm run build:hyperframes",
+    "validate:content": "node scripts/validate-content.mjs",
+    "validate": "npm test && npm run validate:content"
+  }
+}

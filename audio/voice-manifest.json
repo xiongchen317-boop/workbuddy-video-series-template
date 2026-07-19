@@ -1,0 +1,98 @@
+[
+  {
+    "id": "scene-01",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20261719,
+    "speakerSimilarity": 0.7053,
+    "sampleRate": 24000,
+    "durationSeconds": 10.55,
+    "audioPath": "scene-01.wav"
+  },
+  {
+    "id": "scene-02",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20260720,
+    "speakerSimilarity": 0.7295,
+    "sampleRate": 24000,
+    "durationSeconds": 12.08,
+    "audioPath": "scene-02.wav"
+  },
+  {
+    "id": "scene-03",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20261721,
+    "speakerSimilarity": 0.6993,
+    "sampleRate": 24000,
+    "durationSeconds": 15.9,
+    "audioPath": "scene-03.wav"
+  },
+  {
+    "id": "scene-04",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20260722,
+    "speakerSimilarity": 0.6683,
+    "sampleRate": 24000,
+    "durationSeconds": 14.13,
+    "audioPath": "scene-04.wav"
+  },
+  {
+    "id": "scene-05",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20261723,
+    "speakerSimilarity": 0.695,
+    "sampleRate": 24000,
+    "durationSeconds": 14.53,
+    "audioPath": "scene-05.wav"
+  },
+  {
+    "id": "scene-06",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20260724,
+    "speakerSimilarity": 0.7218,
+    "sampleRate": 24000,
+    "durationSeconds": 19.21,
+    "audioPath": "scene-06.wav"
+  },
+  {
+    "id": "scene-07",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20260725,
+    "speakerSimilarity": 0.7186,
+    "sampleRate": 24000,
+    "durationSeconds": 16.09,
+    "audioPath": "scene-07.wav"
+  },
+  {
+    "id": "scene-08",
+    "engine": "Fun-CosyVoice3-0.5B",
+    "voice": "female_question_reference_999",
+    "referenceSha256": "7909B83D2DEC0D5C9699994DCAF4873C0C9C3EBD9F20B98B55D76C6EEE154033",
+    "instruction": "You are a helpful assistant. 请保持原音色。像真人教学一样自然亲切地讲解，句尾有轻微自然转折，语速舒展，不要播音腔。<|endofprompt|>",
+    "seed": 20261726,
+    "speakerSimilarity": 0.7256,
+    "sampleRate": 24000,
+    "durationSeconds": 18.04,
+    "audioPath": "scene-08.wav"
+  }
+]
