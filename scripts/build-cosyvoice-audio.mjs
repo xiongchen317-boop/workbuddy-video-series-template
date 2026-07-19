@@ -20,4 +20,10 @@ const timeline = spawnSync(process.execPath, [
   "--timeline-only",
 ], { cwd: ROOT, stdio: "inherit", shell: false });
 
-process.exit(timeline.status ?? 1);
+if (timeline.status !== 0) process.exit(timeline.status ?? 1);
+
+const publishedTimeline = spawnSync(process.execPath, [
+  path.join(ROOT, "scripts", "build-timeline.mjs"),
+], { cwd: ROOT, stdio: "inherit", shell: false });
+
+process.exit(publishedTimeline.status ?? 1);

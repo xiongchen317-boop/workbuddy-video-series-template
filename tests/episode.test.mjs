@@ -116,3 +116,19 @@ test("all slides stay inside episode one and narration keeps peak headroom", () 
   const html = renderHyperframesHtml(sampleEpisode, buildTimeline(sampleEpisode, durations));
   assert.match(html, /data-volume="0\.89"/);
 });
+
+test("published timeline metadata stays synchronized with the selected CosyVoice audio", () => {
+  const timing = JSON.parse(fs.readFileSync(new URL("../audio/timing.json", import.meta.url), "utf8"));
+  const timeline = JSON.parse(fs.readFileSync(new URL("../audio/timeline.json", import.meta.url), "utf8"));
+  assert.equal(timeline.duration, timing.duration);
+  assert.deepEqual(
+    timeline.scenes.map((scene) => scene.audioDuration),
+    timing.scenes.map((scene) => scene.audioDuration),
+  );
+
+  const cosyWrapper = fs.readFileSync(
+    new URL("../scripts/build-cosyvoice-audio.mjs", import.meta.url),
+    "utf8",
+  );
+  assert.match(cosyWrapper, /build-timeline\.mjs/);
+});
